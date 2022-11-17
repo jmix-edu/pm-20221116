@@ -45,6 +45,7 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
+                <textField id="hoursPlannedField" property="hoursPlanned"/>
                 <textField id="hoursSpentField" property="hoursSpent"/>
                 <entityPicker id="projectField" property="project">
                     <actions>
@@ -53,6 +54,10 @@
                     </actions>
                 </entityPicker>
                 <comboBox id="stateField" property="state"/>
+                <fileStorageUpload property="attachement"
+                                   caption="msg://task.attachement"
+                                   showFileName="true"
+                />
             </column>
         </form>
         <hbox id="editActions" spacing="true">

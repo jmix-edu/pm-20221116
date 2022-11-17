@@ -1,6 +1,7 @@
 package com.company.pm.entity;
 
 import io.jmix.core.DeletePolicy;
+import io.jmix.core.FileRef;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.InstanceName;
@@ -62,6 +63,29 @@ public class Task {
 
     @OneToMany(mappedBy = "task")
     private Set<Subtask> subtasks;
+
+    @PositiveOrZero
+    @Column(name = "HOURS_PLANNED")
+    private Integer hoursPlanned = 0;
+
+    public Integer getHoursPlanned() {
+        return hoursPlanned;
+    }
+
+    public void setHoursPlanned(Integer hoursPlanned) {
+        this.hoursPlanned = hoursPlanned;
+    }
+
+    @Column(name = "ATTACHEMENT")
+    private FileRef attachement;
+
+    public FileRef getAttachement() {
+        return attachement;
+    }
+
+    public void setAttachement(FileRef attachement) {
+        this.attachement = attachement;
+    }
 
     public Set<Subtask> getSubtasks() {
         return subtasks;

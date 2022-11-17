@@ -12,6 +12,8 @@
         </menu>
         <item screen="User.browse" caption="msg://com.company.pm.screen.user/UserBrowse.caption"/>
         <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>
+        <item screen="ProjectStats.browse"
+              caption="msg://com.company.pm.dtos.projectstats/projectStatsBrowse.menu"/>
     </menu>
 
 </menu-config>
