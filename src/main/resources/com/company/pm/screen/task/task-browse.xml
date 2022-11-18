@@ -6,13 +6,9 @@
     <data readOnly="true">
         <collection id="tasksDc"
                     class="com.company.pm.entity.Task">
-            <fetchPlan extends="_instance_name">
+            <fetchPlan extends="_base">
                 <property name="assignee" fetchPlan="_base"/>
                 <property name="project" fetchPlan="_base"/>
-                <property name="hoursPlanned"/>
-                <property name="hoursSpent"/>
-                <property name="state"/>
-                <property name="attachement"/>
             </fetchPlan>
             <loader id="tasksDl">
                 <query>
@@ -58,6 +54,7 @@
                 <column id="state"/>
                 <column id="hoursPlanned"/>
                 <column id="attachement"/>
+                <column id="createdBy"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
