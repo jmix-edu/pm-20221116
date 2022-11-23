@@ -10,8 +10,9 @@
                 <property name="tasks" fetchPlan="_base">
                     <property name="assignee" fetchPlan="_base"/>
                 </property>
+                <property name="budget" fetchPlan="_base"/>
             </fetchPlan>
-            <loader/>
+            <loader id="projectDl"/>
             <collection id="tasksDc" property="tasks"/>
         </instance>
     </data>
@@ -42,6 +43,9 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
+                <textField id="budgetPlanned" property="budget.initialBudget"/>
+                <textField id="budgetSpent" property="budget.spentBudget"/>
+                <textField id="projectLabelsField" property="projectLabels"/>
             </column>
         </form>
         <groupBox id="tasksBox"

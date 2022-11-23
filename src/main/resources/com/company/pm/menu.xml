@@ -9,11 +9,19 @@
                   caption="msg://com.company.pm.entity.task/taskBrowse.menu"/>
             <item screen="Subtask.browse"
                   caption="msg://com.company.pm.screen.subtask/subtaskBrowse.menu"/>
+            <item screen="TaskStatistics"
+                  caption="msg://com.company.pm.screen.taskstatistics/taskStatistics.caption"/>
         </menu>
         <item screen="User.browse" caption="msg://com.company.pm.screen.user/UserBrowse.caption"/>
         <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>
         <item screen="ProjectStats.browse"
               caption="msg://com.company.pm.dtos.projectstats/projectStatsBrowse.menu"/>
+        <item screen="UserInfo.browse"
+              caption="msg://com.company.pm.screen.userinfo/userInfoBrowse.menu"/>
+        <item screen="Tag.browse"
+              caption="msg://com.company.pm.screen.tag/tagBrowse.menu"/>
+        <item screen="ProjectBudget.browse"
+              caption="msg://com.company.pm.screen.projectbudget/projectBudgetBrowse.menu"/>
     </menu>
 
 </menu-config>

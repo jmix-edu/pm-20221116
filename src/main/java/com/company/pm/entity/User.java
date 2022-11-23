@@ -2,11 +2,13 @@ package com.company.pm.entity;
 
 import io.jmix.core.HasTimeZone;
 import io.jmix.core.annotation.Secret;
+import io.jmix.core.entity.annotation.EmbeddedParameters;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.SystemLevel;
 import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 import io.jmix.security.authentication.JmixUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -59,8 +61,30 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "AVATAR")
     private byte[] avatar;
 
+    @JmixProperty
+    @DependsOnProperties({"firstName", "lastName"})
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    @EmbeddedParameters(nullAllowed = false)
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "zip", column = @Column(name = "ADDRESS_ZIP")),
+            @AttributeOverride(name = "street", column = @Column(name = "ADDRESS_STREET"))
+    })
+    private Address address;
+
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public byte[] getAvatar() {
         return avatar;

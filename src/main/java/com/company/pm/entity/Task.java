@@ -2,6 +2,8 @@ package com.company.pm.entity;
 
 import io.jmix.core.DeletePolicy;
 import io.jmix.core.FileRef;
+import io.jmix.core.annotation.DeletedBy;
+import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.InstanceName;
@@ -13,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @JmixEntity
@@ -68,6 +71,40 @@ public class Task {
     @Column(name = "HOURS_PLANNED")
     private Integer hoursPlanned = 0;
 
+    @Column(name = "ATTACHEMENT")
+    private FileRef attachement;
+
+    @JoinTable(name = "TASK_TAG_LINK",
+            joinColumns = @JoinColumn(name = "TASK_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "TAG_ID", referencedColumnName = "ID"))
+    @ManyToMany
+    private List<Tag> tags;
+
+    @DeletedBy
+    @Column(name = "DELETED_BY")
+    private String deletedBy;
+
+    @DeletedDate
+    @Column(name = "DELETED_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedDate;
+
+    public Date getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(Date deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
     public Integer getHoursPlanned() {
         return hoursPlanned;
     }
@@ -76,8 +113,13 @@ public class Task {
         this.hoursPlanned = hoursPlanned;
     }
 
-    @Column(name = "ATTACHEMENT")
-    private FileRef attachement;
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 
     public FileRef getAttachement() {
         return attachement;

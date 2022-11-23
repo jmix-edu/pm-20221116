@@ -1,14 +1,19 @@
 package com.company.pm.entity;
 
+import com.company.pm.validation.ProjectLabelsSize;
+import com.company.pm.validation.TwoDatesOrder;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.validation.group.UiCrossFieldChecks;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -17,15 +22,20 @@ import java.util.Set;
 @Table(name = "PROJECT", indexes = {
         @Index(name = "IDX_PROJECT_MANAGER", columnList = "MANAGER_ID"),
         @Index(name = "IDX_PROJECT_NAME", columnList = "NAME"),
-        @Index(name = "IDX_PROJECT_START_DATE", columnList = "START_DATE")
+        @Index(name = "IDX_PROJECT_START_DATE", columnList = "START_DATE"),
+        @Index(name = "IDX_PROJECT_BUDGET", columnList = "BUDGET_ID")
 })
 @Entity
+@TwoDatesOrder(firstDate = "startDate", lastDate = "endDate",
+        dateClass = LocalDateTime.class,
+        groups = {UiCrossFieldChecks.class, Default.class})
 public class Project {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
     private Integer id;
 
+    @Length(message = "{msg://com.company.pm.entity/Project.name.validation.Length}", min = 3, max = 200)
     @InstanceName
     @Column(name = "NAME", nullable = false, length = 1024)
     @NotNull
@@ -58,6 +68,31 @@ public class Project {
     @Composition
     @OneToMany(mappedBy = "project")
     private Set<Task> tasks;
+
+    @JoinColumn(name = "BUDGET_ID")
+    @Composition
+    @OneToOne(fetch = FetchType.LAZY)
+    private ProjectBudget budget;
+
+    @Column(name = "PROJECT_LABELS")
+    @ProjectLabelsSize(min = 2, max = 5)
+    private ProjectLabels projectLabels;
+
+    public ProjectLabels getProjectLabels() {
+        return projectLabels;
+    }
+
+    public void setProjectLabels(ProjectLabels projectLabels) {
+        this.projectLabels = projectLabels;
+    }
+
+    public ProjectBudget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(ProjectBudget budget) {
+        this.budget = budget;
+    }
 
     public Set<Task> getTasks() {
         return tasks;

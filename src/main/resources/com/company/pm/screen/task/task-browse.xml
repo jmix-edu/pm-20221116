@@ -53,8 +53,8 @@
                 <column id="project"/>
                 <column id="state"/>
                 <column id="hoursPlanned"/>
+                <column id="taskInfo"/>
                 <column id="attachement"/>
-                <column id="createdBy"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
@@ -62,6 +62,7 @@
                 <button id="createBtn" action="tasksTable.create"/>
                 <button id="editBtn" action="tasksTable.edit"/>
                 <button id="removeBtn" action="tasksTable.remove"/>
+                <button id="hardDeleteBtn" caption="msg://hard.delete" icon="TRASH_O"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

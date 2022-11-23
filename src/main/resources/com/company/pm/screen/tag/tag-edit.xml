@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://subtaskEdit.caption"
+        caption="msg://tagEdit.caption"
         focusComponent="form">
     <data>
-        <instance id="subtaskDc"
-                  class="com.company.pm.entity.Subtask">
+        <instance id="tagDc"
+                  class="com.company.pm.entity.Tag">
             <fetchPlan extends="_base">
-                <property name="assignee" fetchPlan="_base"/>
-                <property name="task" fetchPlan="_base"/>
+                <property name="tasks" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
+            <collection id="tasksDc" property="tasks"/>
         </instance>
     </data>
     <facets>
@@ -28,25 +28,31 @@
     <dialogMode height="600"
                 width="800"/>
     <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="subtaskDc">
+        <form id="form" dataContainer="tagDc">
             <column width="350px">
                 <textField id="nameField" property="name"/>
-                <entityPicker id="assigneeField" property="assignee">
-                    <actions>
-                        <action id="entityLookup" type="entity_lookup"/>
-                        <action id="entityClear" type="entity_clear"/>
-                    </actions>
-                </entityPicker>
-                <entityPicker id="taskField" property="task">
-                    <actions>
-                        <action id="entityLookup" type="entity_lookup"/>
-                        <action id="entityClear" type="entity_clear"/>
-                    </actions>
-                </entityPicker>
-                <dateField id="startDateField" property="startDate"/>
-                <dateField id="finishDateField" property="finishDate"/>
             </column>
         </form>
+        <groupBox id="tasksBox" caption="msg://com.company.pm.entity/Tag.tasks">
+            <table id="tasksTable" dataContainer="tasksDc" width="100%"
+                   height="200px">
+                <actions>
+                    <action id="add" type="add"/>
+                    <action id="exclude" type="exclude"/>
+                </actions>
+                <columns>
+                    <column id="name"/>
+                    <column id="hoursSpent"/>
+                    <column id="state"/>
+                    <column id="hoursPlanned"/>
+                    <column id="attachement"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="tasksTable.add"/>
+                    <button action="tasksTable.exclude"/>
+                </buttonsPanel>
+            </table>
+        </groupBox>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
             <button id="closeBtn" action="windowClose"/>

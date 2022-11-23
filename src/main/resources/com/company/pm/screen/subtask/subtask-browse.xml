@@ -50,6 +50,8 @@
                 <column id="name"/>
                 <column id="assignee"/>
                 <column id="task"/>
+                <column id="startDate"/>
+                <column id="finishDate"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

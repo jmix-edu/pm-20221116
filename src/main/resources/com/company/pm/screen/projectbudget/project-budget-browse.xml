@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://projectBrowse.caption"
-        focusComponent="projectsTable">
+        caption="msg://projectBudgetBrowse.caption"
+        focusComponent="projectBudgetsTable">
     <data readOnly="true">
-        <collection id="projectsDc"
-                    class="com.company.pm.entity.Project">
-            <fetchPlan extends="_base">
-                <property name="manager" fetchPlan="_base"/>
-                <property name="budget" fetchPlan="_base"/>
-            </fetchPlan>
-            <loader id="projectsDl">
+        <collection id="projectBudgetsDc"
+                    class="com.company.pm.entity.ProjectBudget">
+            <fetchPlan extends="_base"/>
+            <loader id="projectBudgetsDl">
                 <query>
-                    <![CDATA[select e from Project e]]>
+                    <![CDATA[select e from ProjectBudget e]]>
                 </query>
             </loader>
         </collection>
@@ -33,34 +30,29 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="projectsTable" spacing="true">
+    <layout expand="projectBudgetsTable" spacing="true">
         <filter id="filter"
-                dataLoader="projectsDl">
+                dataLoader="projectBudgetsDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="projectsTable"
+        <groupTable id="projectBudgetsTable"
                     width="100%"
-                    dataContainer="projectsDc">
+                    dataContainer="projectBudgetsDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="name"/>
-                <column id="startDate"/>
-                <column id="endDate"/>
-                <column id="manager"/>
-                <column id="budget"/>
-                <column id="projectLabels"/>
+                <column id="initialBudget"/>
+                <column id="spentBudget"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="projectsTable.create"/>
-                <button id="editBtn" action="projectsTable.edit"/>
-                <button id="removeBtn" action="projectsTable.remove"/>
-                <button id="envBtn" caption="msg://env"/>
+                <button id="createBtn" action="projectBudgetsTable.create"/>
+                <button id="editBtn" action="projectBudgetsTable.edit"/>
+                <button id="removeBtn" action="projectBudgetsTable.remove"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

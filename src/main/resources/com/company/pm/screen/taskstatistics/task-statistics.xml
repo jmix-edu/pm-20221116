@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://taskStatistics.caption">
+    <data>
+        <keyValueCollection id="taskStatDc">
+            <properties>
+                <property name="id" datatype="int"/>
+                <property name="name" datatype="string"/>
+                <property name="subtasksCount" datatype="long"/>
+            </properties>
+            <loader id="taskStatsDl"/>
+        </keyValueCollection>
+    </data>
+    <layout>
+
+        <groupTable id="taskStatTable" height="100%" width="100%"
+                    dataContainer="taskStatDc">
+            <actions>
+                <action id="refresh" type="refresh"/>
+            </actions>
+            <buttonsPanel alwaysVisible="true">
+                <button id="taskStatTableRefreshBtn"
+                        action="taskStatTable.refresh"/>
+            </buttonsPanel>
+            <columns>
+                <column id="id" caption="ID"/>
+                <column id="name" caption="Name"/>
+                <column id="subtasksCount" caption="Subtasks"/>
+            </columns>
+        </groupTable>
+    </layout>
+</window>

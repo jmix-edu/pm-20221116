@@ -5,6 +5,7 @@ import com.company.pm.entity.Project;
 import com.company.pm.entity.Task;
 import com.company.pm.repositories.TaskRepository;
 import io.jmix.core.DataManager;
+import io.jmix.data.PersistenceHints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,11 @@ public class StatsService {
     private TaskRepository taskRepository;
 
     public List<ProjectStats> getProjectStats() {
-        List<Project> projects = dataManager.load(Project.class).all().fetchPlan("project-with-tasks").list();
+        List<Project> projects = dataManager.
+                load(Project.class).
+                all().
+                hint(PersistenceHints.SOFT_DELETION, false).
+                fetchPlan("project-with-tasks").list();
 
         List<ProjectStats> projectStats = projects.stream().map(p -> {
             ProjectStats ps = dataManager.create(ProjectStats.class);

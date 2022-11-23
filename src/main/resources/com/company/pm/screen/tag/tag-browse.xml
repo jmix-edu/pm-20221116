@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://projectBrowse.caption"
-        focusComponent="projectsTable">
+        caption="msg://tagBrowse.caption"
+        focusComponent="tagsTable">
     <data readOnly="true">
-        <collection id="projectsDc"
-                    class="com.company.pm.entity.Project">
+        <collection id="tagsDc"
+                    class="com.company.pm.entity.Tag">
             <fetchPlan extends="_base">
-                <property name="manager" fetchPlan="_base"/>
-                <property name="budget" fetchPlan="_base"/>
+                <property name="tasks" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="projectsDl">
+            <loader id="tagsDl">
                 <query>
-                    <![CDATA[select e from Project e]]>
+                    <![CDATA[select e from Tag e]]>
                 </query>
             </loader>
         </collection>
@@ -33,14 +32,14 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="projectsTable" spacing="true">
+    <layout expand="tagsTable" spacing="true">
         <filter id="filter"
-                dataLoader="projectsDl">
+                dataLoader="tagsDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="projectsTable"
+        <groupTable id="tagsTable"
                     width="100%"
-                    dataContainer="projectsDc">
+                    dataContainer="tagsDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -48,19 +47,13 @@
             </actions>
             <columns>
                 <column id="name"/>
-                <column id="startDate"/>
-                <column id="endDate"/>
-                <column id="manager"/>
-                <column id="budget"/>
-                <column id="projectLabels"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="projectsTable.create"/>
-                <button id="editBtn" action="projectsTable.edit"/>
-                <button id="removeBtn" action="projectsTable.remove"/>
-                <button id="envBtn" caption="msg://env"/>
+                <button id="createBtn" action="tagsTable.create"/>
+                <button id="editBtn" action="tagsTable.edit"/>
+                <button id="removeBtn" action="tagsTable.remove"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

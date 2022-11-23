@@ -5,7 +5,9 @@
     <data>
         <instance id="userDc"
                   class="com.company.pm.entity.User">
-            <fetchPlan extends="_base"/>
+            <fetchPlan extends="_base">
+                <property name="address" fetchPlan="_base"/>
+            </fetchPlan>
             <loader/>
         </instance>
     </data>
@@ -27,7 +29,8 @@
     <layout spacing="true" expand="editActions">
         <form id="form" dataContainer="userDc">
             <column width="350px">
-                <textField id="usernameField" property="username" editable="false"/>
+                <textField id="usernameField" property="username"
+                           editable="false"/>
                 <passwordField id="passwordField"
                                caption="msg://com.company.pm.entity/User.password"
                                required="true"
@@ -39,6 +42,8 @@
                 <textField id="firstNameField" property="firstName"/>
                 <textField id="lastNameField" property="lastName"/>
                 <textField id="emailField" property="email"/>
+                <textField id="addressZipField" property="address.zip"/>
+                <textField id="addressStreetField" property="address.street"/>
                 <comboBox id="timeZoneField" property="timeZoneId"/>
                 <checkBox id="activeField" property="active"/>
             </column>
