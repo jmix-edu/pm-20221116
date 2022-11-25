@@ -16,6 +16,16 @@
                   </DataStoreSettings>
                 </value>
               </entry>
+              <entry key="ts">
+                <value>
+                  <DataStoreSettings>
+                    <option name="generateDdlType" value="CREATE_AND_UPDATE" />
+                    <option name="supportedTypes">
+                      <option value="hsql" />
+                    </option>
+                  </DataStoreSettings>
+                </value>
+              </entry>
             </map>
           </option>
         </ModuleSettings>

@@ -26,12 +26,16 @@
     <dialogMode height="600"
                 width="800"/>
     <layout expand="projectStatsesTable" spacing="true">
+        <buttonsPanel>
+            <button id="showProjectEndDate" caption="Show End Date" icon="CALENDAR"/>
+        </buttonsPanel>
         <groupTable id="projectStatsesTable"
                     width="100%"
                     dataContainer="projectStatsesDc">
             <columns>
                 <column id="id"/>
                 <column id="name"/>
+                <column id="startDate"/>
                 <column id="tasksCount"/>
                 <column id="hoursPlanned"/>
                 <column id="hoursSpent"/>

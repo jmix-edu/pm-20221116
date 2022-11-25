@@ -22,6 +22,8 @@
               caption="msg://com.company.pm.screen.tag/tagBrowse.menu"/>
         <item screen="ProjectBudget.browse"
               caption="msg://com.company.pm.screen.projectbudget/projectBudgetBrowse.menu"/>
+        <item screen="TimeSheet.browse"
+              caption="msg://com.company.pm.screen.timesheet/timeSheetBrowse.menu"/>
     </menu>
 
 </menu-config>

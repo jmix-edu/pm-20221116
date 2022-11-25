@@ -1,13 +1,16 @@
 package com.company.pm.entity;
 
+import com.company.pm.listener.TaskJpaCallbacks;
 import io.jmix.core.DeletePolicy;
 import io.jmix.core.FileRef;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.OnDeleteInverse;
+import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.pessimisticlocking.PessimisticLock;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -19,18 +22,19 @@ import java.util.List;
 import java.util.Set;
 
 @JmixEntity
+@PessimisticLock
 @Table(name = "TASK_", indexes = {
         @Index(name = "IDX_TASK__ASSIGNEE", columnList = "ASSIGNEE_ID"),
         @Index(name = "IDX_TASK__PROJECT", columnList = "PROJECT_ID")
 })
 @Entity(name = "Task_")
+@EntityListeners(TaskJpaCallbacks.class)
 public class Task {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
     private Integer id;
 
-    @InstanceName
     @Column(name = "NAME", nullable = false)
     @NotNull
     private String name;
@@ -88,6 +92,13 @@ public class Task {
     @Column(name = "DELETED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+
+
+    @InstanceName
+    @DependsOnProperties({"name"})
+    public String getInstanceName() {
+        return name;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;
@@ -209,4 +220,11 @@ public class Task {
         this.id = id;
     }
 
+    @PrePersist
+    @PreUpdate
+    public void prePersist() {
+        if (hoursSpent > 0 && getState() != TaskState.STARTED) {
+            setState(TaskState.STARTED);
+        }
+    }
 }

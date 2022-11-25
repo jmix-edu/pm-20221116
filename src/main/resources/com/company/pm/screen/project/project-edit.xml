@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:dynattr="http://jmix.io/schema/dynattr/ui"
         caption="msg://projectEdit.caption"
         focusComponent="form">
     <data>
@@ -11,6 +12,7 @@
                     <property name="assignee" fetchPlan="_base"/>
                 </property>
                 <property name="budget" fetchPlan="_base"/>
+                <property name="category" fetchPlan="_base"/>
             </fetchPlan>
             <loader id="projectDl"/>
             <collection id="tasksDc" property="tasks"/>
@@ -19,6 +21,7 @@
     <facets>
         <dataLoadCoordinator auto="true"/>
         <screenSettings id="settingsFacet" auto="true"/>
+        <dynattr:dynamicAttributes/>
     </facets>
     <actions>
         <action id="windowCommitAndClose" caption="msg:///actions.Ok"
@@ -46,6 +49,9 @@
                 <textField id="budgetPlanned" property="budget.initialBudget"/>
                 <textField id="budgetSpent" property="budget.spentBudget"/>
                 <textField id="projectLabelsField" property="projectLabels"/>
+                <dynattr:dynamicAttributesPanel id="dynamicAttributesPanel"
+                                                dataContainer="projectDc"
+                                                width="100%"/>
             </column>
         </form>
         <groupBox id="tasksBox"
@@ -73,6 +79,10 @@
             <button id="commitAndCloseBtn" action="windowCommitAndClose"
             />
             <button id="closeBtn" action="windowClose"/>
+            <button id="saveUsingService" caption="msg://save.with.service"
+                    icon="FLOPPY_O"/>
+            <button id="validateDate" caption="msg://validate.project.data"
+                    icon="CHECK_CIRCLE"/>
         </hbox>
     </layout>
 </window>

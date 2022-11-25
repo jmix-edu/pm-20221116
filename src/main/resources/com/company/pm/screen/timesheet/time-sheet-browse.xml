@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        xmlns:dynattr="http://jmix.io/schema/dynattr/ui"
-        caption="msg://projectBrowse.caption"
-        focusComponent="projectsTable">
+        caption="msg://timeSheetBrowse.caption"
+        focusComponent="timeSheetsTable">
     <data readOnly="true">
-        <collection id="projectsDc"
-                    class="com.company.pm.entity.Project">
+        <collection id="timeSheetsDc"
+                    class="com.company.pm.entity.TimeSheet">
             <fetchPlan extends="_base">
-                <property name="manager" fetchPlan="_base">
-                    <property name="address" fetchPlan="_base"/>
-                </property>
-                <property name="budget" fetchPlan="_base"/>
-                <property name="category" fetchPlan="_base"/>
+                <property name="task" fetchPlan="_base"/>
+                <property name="employee" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="projectsDl" cacheable="true">
+            <loader id="timeSheetsDl">
                 <query>
-                    <![CDATA[select e from Project e]]>
+                    <![CDATA[select e from TimeSheet e]]>
                 </query>
             </loader>
         </collection>
@@ -24,7 +20,6 @@
     <facets>
         <dataLoadCoordinator auto="true"/>
         <screenSettings id="settingsFacet" auto="true"/>
-        <dynattr:dynamicAttributes/>
     </facets>
     <actions>
         <action id="lookupSelectAction"
@@ -38,35 +33,30 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="projectsTable" spacing="true">
+    <layout expand="timeSheetsTable" spacing="true">
         <filter id="filter"
-                dataLoader="projectsDl">
+                dataLoader="timeSheetsDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="projectsTable"
+        <groupTable id="timeSheetsTable"
                     width="100%"
-                    dataContainer="projectsDc">
+                    dataContainer="timeSheetsDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="name"/>
-                <column id="startDate"/>
-                <column id="endDate"/>
-                <column id="manager"/>
-                <column id="budget"/>
-                <column id="projectLabels"/>
-                <column id="category"/>
+                <column id="task"/>
+                <column id="workHours"/>
+                <column id="employee"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="projectsTable.create"/>
-                <button id="editBtn" action="projectsTable.edit"/>
-                <button id="removeBtn" action="projectsTable.remove"/>
-                <button id="envBtn" caption="msg://env"/>
+                <button id="createBtn" action="timeSheetsTable.create"/>
+                <button id="editBtn" action="timeSheetsTable.edit"/>
+                <button id="removeBtn" action="timeSheetsTable.remove"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

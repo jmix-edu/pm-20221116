@@ -7,13 +7,14 @@ import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.core.validation.group.UiCrossFieldChecks;
+import io.jmix.dynattr.model.Categorized;
+import io.jmix.dynattr.model.Category;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -23,13 +24,14 @@ import java.util.Set;
         @Index(name = "IDX_PROJECT_MANAGER", columnList = "MANAGER_ID"),
         @Index(name = "IDX_PROJECT_NAME", columnList = "NAME"),
         @Index(name = "IDX_PROJECT_START_DATE", columnList = "START_DATE"),
-        @Index(name = "IDX_PROJECT_BUDGET", columnList = "BUDGET_ID")
+        @Index(name = "IDX_PROJECT_BUDGET", columnList = "BUDGET_ID"),
+        @Index(name = "IDX_PROJECT_CATEGORY", columnList = "CATEGORY_ID")
 })
 @Entity
 @TwoDatesOrder(firstDate = "startDate", lastDate = "endDate",
         dateClass = LocalDateTime.class,
-        groups = {UiCrossFieldChecks.class, Default.class})
-public class Project {
+        groups = {UiCrossFieldChecks.class})
+public class Project implements Categorized {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
@@ -77,6 +79,18 @@ public class Project {
     @Column(name = "PROJECT_LABELS")
     @ProjectLabelsSize(min = 2, max = 5)
     private ProjectLabels projectLabels;
+
+    @JoinColumn(name = "CATEGORY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public ProjectLabels getProjectLabels() {
         return projectLabels;
