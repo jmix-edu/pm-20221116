@@ -42,6 +42,13 @@ public class ProjectEdit extends StandardEditor<Project> {
     private Form form;
 
     @Subscribe
+    public void onAfterShow(AfterShowEvent event) {
+        if (getEditedEntity().getBudget() == null) {
+            getEditedEntity().setBudget(dataContext.create(ProjectBudget.class));
+        }
+    }
+
+    @Subscribe
     public void onInitEntity(InitEntityEvent<Project> event) {
         UserDetails user = currentAuthentication.getUser();
         event.getEntity().setManager((User) user);
