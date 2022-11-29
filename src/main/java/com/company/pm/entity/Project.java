@@ -84,6 +84,17 @@ public class Project implements Categorized {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
+    @Column(name = "ARCHIVED")
+    private Boolean archived;
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
+    }
+
     public Category getCategory() {
         return category;
     }

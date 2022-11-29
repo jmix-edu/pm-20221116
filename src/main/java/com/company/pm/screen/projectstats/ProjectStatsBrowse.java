@@ -7,6 +7,7 @@ import io.jmix.core.SaveContext;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.GroupTable;
+import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import com.company.pm.dtos.ProjectStats;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Set;
 
+@Route(value = "stats", root = true)
 @UiController("ProjectStats.browse")
 @UiDescriptor("project-stats-browse.xml")
 @LookupComponent("projectStatsesTable")

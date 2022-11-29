@@ -3,8 +3,11 @@ package com.company.pm.screen.project;
 import com.company.pm.entity.ProjectBudget;
 import com.company.pm.entity.User;
 import com.company.pm.services.ProjectService;
+import io.jmix.audit.EntityLog;
+import io.jmix.audit.snapshot.EntitySnapshotManager;
 import io.jmix.core.DataManager;
 import io.jmix.core.security.CurrentAuthentication;
+import io.jmix.core.usersubstitution.CurrentUserSubstitution;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.Form;
@@ -40,6 +43,16 @@ public class ProjectEdit extends StandardEditor<Project> {
     private ScreenValidation screenValidation;
     @Autowired
     private Form form;
+    @Autowired
+    private CurrentUserSubstitution currentUserSubstitution;
+
+    @Subscribe
+    public void onAfterCommitChanges(AfterCommitChangesEvent event) {
+        entitySnapshotManager.createSnapshot(getEditedEntity(), getEditedEntityContainer().getFetchPlan());
+    }
+
+    @Autowired
+    private EntitySnapshotManager entitySnapshotManager;
 
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
@@ -50,7 +63,7 @@ public class ProjectEdit extends StandardEditor<Project> {
 
     @Subscribe
     public void onInitEntity(InitEntityEvent<Project> event) {
-        UserDetails user = currentAuthentication.getUser();
+        UserDetails user = currentUserSubstitution.getEffectiveUser();
         event.getEntity().setManager((User) user);
 
         ProjectBudget projectBudget = dataContext.create(ProjectBudget.class);

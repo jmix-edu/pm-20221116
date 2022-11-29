@@ -39,4 +39,5 @@ public interface ManagerRole {
     @EntityAttributePolicy(entityClass = User.class, attributes = {"id", "version", "username", "password", "email", "active", "timeZoneId"}, action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = User.class, actions = {EntityPolicyAction.UPDATE, EntityPolicyAction.READ})
     void user();
+
 }

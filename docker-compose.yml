@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  openldap:
+    image: osixia/openldap:1.5.0
+    ports:
+      - '1389:389'
+      - '1636:636'
+    environment:
+      - LDAP_ADMIN_USERNAME=admin
+      - LDAP_ADMIN_PASSWORD=admin
+  keycloak:
+    image: quay.io/keycloak/keycloak:18.0.0
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8180:8080
+    command:
+      - start-dev
+
+

@@ -4,7 +4,7 @@
         xmlns:dynattr="http://jmix.io/schema/dynattr/ui"
         caption="msg://projectBrowse.caption"
         focusComponent="projectsTable">
-    <data readOnly="true">
+    <data>
         <collection id="projectsDc"
                     class="com.company.pm.entity.Project">
             <fetchPlan extends="_base">
@@ -14,7 +14,7 @@
                 <property name="budget" fetchPlan="_base"/>
                 <property name="category" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="projectsDl" cacheable="true">
+            <loader id="projectsDl" cacheable="true" dynamicAttributes="true">
                 <query>
                     <![CDATA[select e from Project e]]>
                 </query>
@@ -59,6 +59,7 @@
                 <column id="budget"/>
                 <column id="projectLabels"/>
                 <column id="category"/>
+                <column id="archived"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
@@ -67,6 +68,8 @@
                 <button id="editBtn" action="projectsTable.edit"/>
                 <button id="removeBtn" action="projectsTable.remove"/>
                 <button id="envBtn" caption="msg://env"/>
+                <button id="archive" caption="msg://archive.project" icon="font-icon:ARCHIVE"/>
+                <button id="startProjectBtn" caption="msg://start.project" icon="font-icon:HOURGLASS_START"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

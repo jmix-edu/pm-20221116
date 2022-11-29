@@ -11,6 +11,8 @@
                   caption="msg://com.company.pm.screen.subtask/subtaskBrowse.menu"/>
             <item screen="TaskStatistics"
                   caption="msg://com.company.pm.screen.taskstatistics/taskStatistics.caption"/>
+            <item screen="ProjectSnapshotBrowse"
+                  caption="msg://com.company.pm.screen.projectsnapshotbrowse/projectSnapshotBrowse.caption"/>
         </menu>
         <item screen="User.browse" caption="msg://com.company.pm.screen.user/UserBrowse.caption"/>
         <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>

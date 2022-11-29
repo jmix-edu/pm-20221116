@@ -1,13 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://caption">
-
-    <actions>
-        <action id="submit"
-                caption="msg://loginButton"
-                icon="CHECK"
-                shortcut="ENTER"/>
-    </actions>
-
+        caption="msg://registrationScreen.caption">
     <layout stylename="jmix-login-main-layout">
         <vbox id="loginWrapper" height="100%" width="100%">
             <vbox id="loginMainBox"
@@ -38,19 +31,18 @@
                     </cssLayout>
                     <hbox id="rememberLocalesBox"
                           stylename="jmix-login-remember-locales">
-                        <checkBox id="rememberMeCheckBox"
-                                  caption="msg://loginScreen.rememberMe"
-                                  stylename="jmix-login-remember-me"/>
                         <comboBox id="localesField"
                                   nullOptionVisible="false"
                                   stylename="jmix-login-locale"
                                   textInputAllowed="false"/>
                     </hbox>
-                    <vbox align="MIDDLE_CENTER">
-                        <button id="loginButton"
-                                action="submit"
+
+                    <vbox>
+                        <button id="registerButton"
+                                caption="msg://register"
                                 stylename="jmix-login-submit-button"/>
-                        <linkButton id="registerButton" caption="msg://register"/>
+                        <linkButton id="loginBnt"
+                                    caption="msg://back.to.login"/>
                     </vbox>
                 </vbox>
             </vbox>

@@ -1,11 +1,13 @@
 package com.company.pm.screen.login;
 
+import com.company.pm.screen.registration.RegistrationScreen;
 import io.jmix.core.MessageTools;
 import io.jmix.core.Messages;
 import io.jmix.securityui.authentication.AuthDetails;
 import io.jmix.securityui.authentication.LoginScreenSupport;
 import io.jmix.ui.JmixApp;
 import io.jmix.ui.Notifications;
+import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.component.*;
 import io.jmix.ui.navigation.Route;
@@ -57,6 +59,8 @@ public class LoginScreen extends Screen {
     private JmixApp app;
 
     private final Logger log = LoggerFactory.getLogger(LoginScreen.class);
+    @Autowired
+    private ScreenBuilders screenBuilders;
 
     @Subscribe
     private void onInit(InitEvent event) {
@@ -123,5 +127,13 @@ public class LoginScreen extends Screen {
                     .withDescription(messages.getMessage(getClass(), "badCredentials"))
                     .show();
         }
+    }
+
+    @Subscribe("registerButton")
+    public void onRegisterButtonClick(Button.ClickEvent event) {
+        screenBuilders.screen(this)
+                .withScreenClass(RegistrationScreen.class)
+                .withOpenMode(OpenMode.ROOT)
+                .show();
     }
 }

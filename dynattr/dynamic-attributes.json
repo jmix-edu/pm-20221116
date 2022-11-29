@@ -1,0 +1,151 @@
+[
+  {
+    "_entityName": "dynat_Category",
+    "id": "541a9af1-25d0-5bfd-6b9a-ef40264def5f",
+    "localeNames": "#\n#Tue Nov 29 09:15:46 CET 2022\n",
+    "updatedBy": "admin",
+    "entityType": "Project",
+    "categoryAttrs": [
+      {
+        "_entityName": "dynat_CategoryAttribute",
+        "id": "7b84dab9-0837-f1a1-5758-0e19d86ed913",
+        "localeNames": "#\n#Tue Nov 29 09:15:44 CET 2022\nit-IT\u003dFEF\nen\u003dFEF\n",
+        "code": "ProjectFrontendCategoryFrontendFramework",
+        "categoryEntityType": "Project",
+        "configuration": {
+          "_entityName": "dynat_CategoryAttributeConfiguration",
+          "id": "1f6da6d4-1be4-41cd-84bb-9bc076eed2fe",
+          "dependsOnAttributeCodes": []
+        },
+        "isCollection": false,
+        "required": false,
+        "enumerationLocales": "#\n#Thu Nov 24 15:40:02 CET 2022\nen/ANGULAR\u003dAngular\nit-IT/ANGULAR\u003dAngular\n#\n#Thu Nov 24 15:40:11 CET 2022\nen/VUE\u003dVue\nit-IT/VUE\u003dVue\n#\n#Thu Nov 24 15:40:22 CET 2022\nen/REACT\u003dReact\nit-IT/REACT\u003dReact\n",
+        "targetScreens": "",
+        "defaultEntity": {},
+        "createTs": "2022-11-24T15:40:49.039",
+        "enumeration": "ANGULAR,VUE,REACT",
+        "lookup": false,
+        "updatedBy": "admin",
+        "orderNo": 1,
+        "dataType": "ENUMERATION",
+        "version": 3,
+        "createdBy": "admin",
+        "localeDescriptions": "#\n#Tue Nov 29 09:15:44 CET 2022\n",
+        "name": "FrontendFramework",
+        "updateTs": "2022-11-29T09:15:46.525"
+      }
+    ],
+    "version": 4,
+    "isDefault": false,
+    "createdBy": "admin",
+    "name": "ProjectFrontendCategory",
+    "createTs": "2022-11-24T15:40:49.042",
+    "updateTs": "2022-11-29T09:15:46.523"
+  },
+  {
+    "_entityName": "dynat_Category",
+    "id": "2d743f97-4388-fed9-9263-60f9d2d44d7b",
+    "localeNames": "#\n#Tue Nov 29 09:20:20 CET 2022\nit-IT\u003dBackend(IT)\nen\u003dBackend\n",
+    "updatedBy": "admin",
+    "entityType": "Project",
+    "categoryAttrs": [
+      {
+        "_entityName": "dynat_CategoryAttribute",
+        "id": "b02d687f-2eb0-652f-880f-ad8e0493cf1d",
+        "localeNames": "#\n#Tue Nov 29 09:15:03 CET 2022\nit-IT\u003dProjetto Type\nen\u003dProject Type\n",
+        "code": "ProjectCategoryBackendProjectType",
+        "categoryEntityType": "Project",
+        "configuration": {
+          "_entityName": "dynat_CategoryAttributeConfiguration",
+          "id": "af6997fb-6eac-4ab3-8934-bc56ec70962a",
+          "columnNumber": 0,
+          "dependsOnAttributeCodes": [],
+          "rowNumber": 0
+        },
+        "isCollection": false,
+        "required": false,
+        "enumerationLocales": "#\n#Thu Nov 24 15:37:34 CET 2022\nit-IT/JMIX\u003dJmix\\!\nen/JMIX\u003dJmix\n#\n#Thu Nov 24 15:37:36 CET 2022\nen/Spring\u003dSpring\nit-IT/Spring\u003dPrimavera\n",
+        "targetScreens": "",
+        "defaultEntity": {},
+        "createTs": "2022-11-24T15:25:32.31",
+        "enumeration": "JMIX,Spring",
+        "lookup": false,
+        "updatedBy": "admin",
+        "orderNo": 1,
+        "dataType": "ENUMERATION",
+        "version": 9,
+        "createdBy": "admin",
+        "localeDescriptions": "#\n#Tue Nov 29 09:15:03 CET 2022\n",
+        "name": "ProjectType",
+        "updateTs": "2022-11-29T09:15:35.412"
+      },
+      {
+        "_entityName": "dynat_CategoryAttribute",
+        "id": "c80c5196-a3bd-a546-a4db-8872f187aa5a",
+        "localeNames": "#\n#Tue Nov 29 09:15:29 CET 2022\nit-IT\u003dDescription(IT)\nen\u003dDescription\n",
+        "code": "ProjectCategoryBackendDescription",
+        "categoryEntityType": "Project",
+        "configuration": {
+          "_entityName": "dynat_CategoryAttributeConfiguration",
+          "id": "e023eb78-a8fc-4e41-8822-3369ad2346aa",
+          "columnNumber": 0,
+          "dependsOnAttributeCodes": [],
+          "rowNumber": 1
+        },
+        "isCollection": false,
+        "required": false,
+        "targetScreens": "",
+        "defaultEntity": {},
+        "createTs": "2022-11-24T15:33:26.061",
+        "lookup": false,
+        "updatedBy": "admin",
+        "orderNo": 2,
+        "dataType": "STRING",
+        "version": 5,
+        "createdBy": "admin",
+        "rowsCount": 5,
+        "localeDescriptions": "#\n#Tue Nov 29 09:15:29 CET 2022\n",
+        "name": "Description",
+        "updateTs": "2022-11-29T09:15:35.41"
+      },
+      {
+        "_entityName": "dynat_CategoryAttribute",
+        "id": "91fa9804-9eff-49df-81ef-9891a686008b",
+        "localeNames": "#\n#Tue Nov 29 09:15:17 CET 2022\n",
+        "code": "ProjectCategoryBackendVersion",
+        "categoryEntityType": "Project",
+        "configuration": {
+          "_entityName": "dynat_CategoryAttributeConfiguration",
+          "id": "83367fe1-2416-4b0d-8ab3-d373d4ecb5e2",
+          "optionsLoaderType": "GROOVY",
+          "optionsLoaderScript": "import io.jmix.core.entity.EntityValues;\n\nif (EntityValues.getValue(entity, \u0027+ProjectCategoryBackendProjectType\u0027).equals(\u0027Spring\u0027)) {\n    return [\u00272.0\u0027, \u00273.0\u0027]\n} else if (EntityValues.getValue(entity, \u0027+ProjectCategoryBackendProjectType\u0027).equals(\u0027JMIX\u0027)) {\n    return [\u00271.3\u0027, \u00271.4\u0027]\n} else {\n    return []\n}\n",
+          "columnNumber": 1,
+          "dependsOnAttributeCodes": [
+            "ProjectCategoryBackendProjectType"
+          ],
+          "rowNumber": 0
+        },
+        "isCollection": false,
+        "required": false,
+        "targetScreens": "",
+        "defaultEntity": {},
+        "createTs": "2022-11-28T21:18:35.179",
+        "lookup": true,
+        "updatedBy": "admin",
+        "orderNo": 3,
+        "dataType": "STRING",
+        "version": 6,
+        "createdBy": "admin",
+        "localeDescriptions": "#\n#Tue Nov 29 09:15:17 CET 2022\n",
+        "name": "Version",
+        "updateTs": "2022-11-29T09:15:35.406"
+      }
+    ],
+    "version": 18,
+    "isDefault": true,
+    "createdBy": "admin",
+    "name": "ProjectCategoryBackend",
+    "createTs": "2022-11-24T15:25:32.312",
+    "updateTs": "2022-11-29T09:20:20.173"
+  }
+]

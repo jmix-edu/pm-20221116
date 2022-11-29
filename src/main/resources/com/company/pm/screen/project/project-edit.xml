@@ -14,7 +14,7 @@
                 <property name="budget" fetchPlan="_base"/>
                 <property name="category" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="projectDl"/>
+            <loader id="projectDl" dynamicAttributes="true"/>
             <collection id="tasksDc" property="tasks"/>
         </instance>
     </data>
@@ -49,6 +49,7 @@
                 <textField id="budgetPlanned" property="budget.initialBudget"/>
                 <textField id="budgetSpent" property="budget.spentBudget"/>
                 <textField id="projectLabelsField" property="projectLabels"/>
+<!--                <textArea id="descrTextArea" property="+ProjectCategoryBackendDescription"/>-->
                 <dynattr:dynamicAttributesPanel id="dynamicAttributesPanel"
                                                 dataContainer="projectDc"
                                                 width="100%"/>
