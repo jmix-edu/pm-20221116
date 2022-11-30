@@ -46,6 +46,7 @@
                 <textField id="addressStreetField" property="address.street"/>
                 <comboBox id="timeZoneField" property="timeZoneId"/>
                 <checkBox id="activeField" property="active"/>
+                <button id="reportBtn" caption="Print Report"/>
             </column>
             <column width="200px">
                 <image id="avatar" width="100%" height="300px" property="avatar"

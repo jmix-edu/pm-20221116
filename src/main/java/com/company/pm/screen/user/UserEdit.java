@@ -3,7 +3,10 @@ package com.company.pm.screen.user;
 import com.company.pm.entity.User;
 import io.jmix.core.EntityStates;
 import io.jmix.core.security.event.SingleUserPasswordChangeEvent;
+import io.jmix.reportsui.action.list.EditorPrintFormAction;
+import io.jmix.ui.Actions;
 import io.jmix.ui.Notifications;
+import io.jmix.ui.component.Button;
 import io.jmix.ui.component.ComboBox;
 import io.jmix.ui.component.PasswordField;
 import io.jmix.ui.component.TextField;
@@ -48,6 +51,10 @@ public class UserEdit extends StandardEditor<User> {
     private ComboBox<String> timeZoneField;
 
     private boolean isNewEntity;
+    @Autowired
+    private Actions actions;
+    @Autowired
+    private Button reportBtn;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -87,5 +94,14 @@ public class UserEdit extends StandardEditor<User> {
         if (isNewEntity) {
             getApplicationContext().publishEvent(new SingleUserPasswordChangeEvent(getEditedEntity().getUsername(), passwordField.getValue()));
         }
+    }
+
+    @Subscribe("reportBtn")
+    public void onReportBtnClick(Button.ClickEvent event) {
+        timeZoneField.setOptionsList(Arrays.asList(TimeZone.getAvailableIDs()));
+        EditorPrintFormAction action = actions.create(EditorPrintFormAction.class);
+        action.setEditor(this);
+        action.setReportOutputName(null);
+        reportBtn.setAction(action);
     }
 }

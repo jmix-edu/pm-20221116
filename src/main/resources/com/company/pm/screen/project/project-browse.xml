@@ -50,6 +50,7 @@
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
+                <action id="runReport" type="runReport"/>
             </actions>
             <columns>
                 <column id="name"/>
@@ -70,6 +71,7 @@
                 <button id="envBtn" caption="msg://env"/>
                 <button id="archive" caption="msg://archive.project" icon="font-icon:ARCHIVE"/>
                 <button id="startProjectBtn" caption="msg://start.project" icon="font-icon:HOURGLASS_START"/>
+                <button id="runReportButton" action="projectsTable.runReport"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

@@ -1,9 +1,13 @@
 package com.company.pm.screen.projectstats;
 
 import com.company.pm.entity.Project;
+import com.company.pm.services.ReportingService;
 import com.company.pm.services.StatsService;
 import io.jmix.core.LoadContext;
 import io.jmix.core.SaveContext;
+import io.jmix.reports.entity.ReportOutputType;
+import io.jmix.reportsui.runner.ParametersDialogShowMode;
+import io.jmix.reportsui.runner.UiReportRunner;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.GroupTable;
@@ -27,6 +31,10 @@ public class ProjectStatsBrowse extends StandardLookup<ProjectStats> {
     private GroupTable<ProjectStats> projectStatsesTable;
     @Autowired
     private Notifications notifications;
+    @Autowired
+    private UiReportRunner uiReportRunner;
+    @Autowired
+    private ReportingService reportingService;
 
     @Install(to = "projectStatsesDl", target = Target.DATA_LOADER)
     private List<ProjectStats> projectStatsesDlLoadDelegate(LoadContext<ProjectStats> loadContext) {
@@ -37,5 +45,19 @@ public class ProjectStatsBrowse extends StandardLookup<ProjectStats> {
     public void onShowProjectEndDateClick(Button.ClickEvent event) {
         Project projectById = statsService.getProjectById(projectStatsesTable.getSingleSelected().getId());
         notifications.create(Notifications.NotificationType.SYSTEM).withCaption(projectById.getEndDate().toString()).show();
+    }
+
+    @Subscribe("budgetReportBtn")
+    public void onBudgetReportBtnClick(Button.ClickEvent event) {
+        uiReportRunner.byReportCode("project-budgets")
+                .withOutputType(ReportOutputType.XLSX)
+                .withParametersDialogShowMode(ParametersDialogShowMode.NO)
+                .withOutputNamePattern("Project Budgets From Screen.xlsx")
+                .runAndShow();
+    }
+
+    @Subscribe("reportInBgd")
+    public void onReportInBgdClick(Button.ClickEvent event) {
+        reportingService.runReport();
     }
 }

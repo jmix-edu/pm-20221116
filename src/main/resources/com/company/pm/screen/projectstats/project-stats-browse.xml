@@ -28,6 +28,8 @@
     <layout expand="projectStatsesTable" spacing="true">
         <buttonsPanel>
             <button id="showProjectEndDate" caption="Show End Date" icon="CALENDAR"/>
+            <button id="budgetReportBtn" caption="Budget Report" icon="DOLLAR"/>
+            <button id="reportInBgd" caption="Run and Save" icon="SAVE"/>
         </buttonsPanel>
         <groupTable id="projectStatsesTable"
                     width="100%"

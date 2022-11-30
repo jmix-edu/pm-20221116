@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>User CV</title>
+</head>
+<#assign userBand = Root.bands.User>
+<#assign tasks = Root.bands.Tasks>
+<body>
+
+<p>First Name: ${userBand[0].fields.firstName}</p>
+<p>Last Name: ${userBand[0].fields.lastName}</p>
+<p>Email: ${userBand[0].fields.email}</p>
+
+<table>
+    <thead>
+    <tr>
+        <td>Task Name</td>
+        <td>Hours Spent</td>
+    </tr>
+    </thead>
+    <tbody>
+    <#list tasks as task>
+    <tr>
+        <td>${task.fields.name}</td>
+        <td>${task.fields.hours}</td>
+    </tr>
+    </#list>
+    </tbody>
+</table>
+
+</body>
+</html>
