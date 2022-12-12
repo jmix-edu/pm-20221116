@@ -13,12 +13,21 @@
                 </property>
                 <property name="budget" fetchPlan="_base"/>
                 <property name="category" fetchPlan="_base"/>
+                <property name="tasks" fetchPlan="_base">
+                    <property name="assignee" fetchPlan="_base"/>
+                </property>
             </fetchPlan>
             <loader id="projectsDl" cacheable="true" dynamicAttributes="true">
                 <query>
                     <![CDATA[select e from Project e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.budget.initialBudget > :budgetInitialBudget1</c:where>
+                        </c:jpql>
+                    </condition>
                 </query>
             </loader>
+            <collection id="tasksDc" property="tasks"/>
         </collection>
     </data>
     <facets>
@@ -38,45 +47,68 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="projectsTable" spacing="true">
+    <layout expand="windowLayout" spacing="true">
         <filter id="filter"
                 dataLoader="projectsDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="projectsTable"
-                    width="100%"
-                    dataContainer="projectsDc">
-            <actions>
-                <action id="create" type="create"/>
-                <action id="edit" type="edit"/>
-                <action id="remove" type="remove"/>
-                <action id="runReport" type="runReport"/>
-            </actions>
-            <columns>
-                <column id="name"/>
-                <column id="startDate"/>
-                <column id="endDate"/>
-                <column id="manager"/>
-                <column id="budget"/>
-                <column id="projectLabels"/>
-                <column id="category"/>
-                <column id="archived"/>
-            </columns>
-            <simplePagination/>
-            <buttonsPanel id="buttonsPanel"
-                          alwaysVisible="true">
-                <button id="createBtn" action="projectsTable.create"/>
-                <button id="editBtn" action="projectsTable.edit"/>
-                <button id="removeBtn" action="projectsTable.remove"/>
-                <button id="envBtn" caption="msg://env"/>
-                <button id="archive" caption="msg://archive.project" icon="font-icon:ARCHIVE"/>
-                <button id="startProjectBtn" caption="msg://start.project" icon="font-icon:HOURGLASS_START"/>
-                <button id="runReportButton" action="projectsTable.runReport"/>
-            </buttonsPanel>
-        </groupTable>
-        <hbox id="lookupActions" spacing="true" visible="false">
-            <button action="lookupSelectAction"/>
-            <button action="lookupCancelAction"/>
+        <hbox spacing="true" width="100%" id="windowLayout" expand="tablesBox">
+            <vbox spacing="true" id="tablesBox" expand="tasksTable" >
+                <hbox width="AUTO" margin="10px" spacing="true">
+                    <label value="msg://budget.filter" align="MIDDLE_LEFT"/>
+                    <textField id="budgetFilterField" width="300px" datatype="int"/>
+                </hbox>
+                <groupTable id="projectsTable"
+                                width="100%"
+                                dataContainer="projectsDc" height="400px">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                        <action id="runReport" type="runReport"/>
+                    </actions>
+                    <columns>
+                        <column id="name"/>
+                        <column id="startDate"/>
+                        <column id="endDate"/>
+                        <column id="manager"/>
+                        <column id="projectLabels"/>
+                        <column id="category"/>
+                        <column id="archived"/>
+                    </columns>
+                    <simplePagination/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn" action="projectsTable.create"/>
+                        <button id="editBtn" action="projectsTable.edit"/>
+                        <button id="removeBtn" action="projectsTable.remove"/>
+                        <button id="envBtn" caption="msg://env"/>
+                        <button id="archive" caption="msg://archive.project" icon="font-icon:ARCHIVE"/>
+                        <button id="startProjectBtn" caption="msg://start.project" icon="font-icon:HOURGLASS_START"/>
+                        <button id="runReportButton" action="projectsTable.runReport"/>
+                    </buttonsPanel>
+                </groupTable>
+                <table id="tasksTable" width="100%" dataContainer="tasksDc">
+                    <columns>
+                        <column id="name"/>
+                        <column id="assignee"/>
+                        <column id="state"/>
+                        <column id="hoursPlanned"/>
+                    </columns>
+                </table>
+                <hbox id="lookupActions" spacing="true" visible="false">
+                    <button action="lookupSelectAction"/>
+                    <button action="lookupCancelAction"/>
+                </hbox>
+            </vbox>
+            <form id="currentProject" dataContainer="projectsDc">
+                <column width="400px">
+                    <textField property="name"/>
+                    <textField property="startDate"/>
+                    <textField property="category" editable="false"/>
+                    <textArea property="+ProjectCategoryBackendDescription"/>
+                </column>
+            </form>
         </hbox>
     </layout>
 </window>

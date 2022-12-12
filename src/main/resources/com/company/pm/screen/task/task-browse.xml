@@ -30,6 +30,8 @@
         <action id="lookupCancelAction"
                 caption="msg:///actions.Cancel"
                 icon="LOOKUP_CANCEL"/>
+        <action id="showStats" icon="DOWNLOAD" caption="msg://show.task.stats"/>
+        <action id="showSubtasks" icon="TREE" caption="msg://show.subtasks"/>
     </actions>
     <dialogMode height="600"
                 width="800"/>
@@ -49,6 +51,8 @@
             <columns>
                 <column id="name"/>
                 <column id="assignee"/>
+                <column id="startDate"/>
+                <column id="endDate"/>
                 <column id="hoursSpent"/>
                 <column id="project"/>
                 <column id="state"/>
@@ -63,6 +67,8 @@
                 <button id="editBtn" action="tasksTable.edit"/>
                 <button id="removeBtn" action="tasksTable.remove"/>
                 <button id="hardDeleteBtn" caption="msg://hard.delete" icon="TRASH_O"/>
+                <button id="statSbutton" action="showStats"/>
+                <button id="subtasksButton" action="showSubtasks"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

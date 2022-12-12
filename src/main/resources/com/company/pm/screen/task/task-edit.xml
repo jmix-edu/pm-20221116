@@ -45,8 +45,10 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
+                <dateField id="startDateField" property="startDate"/>
                 <textField id="hoursPlannedField" property="hoursPlanned"/>
                 <textField id="hoursSpentField" property="hoursSpent"/>
+                <textField id="endDate" property="endDate" editable="false"/>
                 <entityPicker id="projectField" property="project">
                     <actions>
                         <action id="entityLookup" type="entity_lookup"/>

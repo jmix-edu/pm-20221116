@@ -4,10 +4,8 @@ import com.company.pm.dtos.ProjectStats;
 import com.company.pm.entity.Project;
 import com.company.pm.entity.Task;
 import com.company.pm.repositories.TaskRepository;
-import io.jmix.core.DataManager;
-import io.jmix.core.FetchPlan;
-import io.jmix.core.FetchPlanRepository;
-import io.jmix.core.FetchPlans;
+import io.jmix.core.*;
+import io.jmix.core.entity.KeyValueEntity;
 import io.jmix.data.PersistenceHints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +33,26 @@ public class StatsService {
     private FetchPlanRepository fetchPlanRepository;
     @Autowired
     private FetchPlans fetchPlans;
+
+    public List<KeyValueEntity> getProjectStatistics(Integer taskId) {
+        KeyValueEntity kve = dataManager.create(KeyValueEntity.class);
+        kve.setValue("id", 1);
+        kve.setValue("name", "Test");
+        kve.setValue("subtasksCount", 100);
+        kve.setValue("extraProperty", "New work");
+
+        FluentValuesLoader loader = dataManager.loadValues("select t.id, t.name, count(t.subtasks) " +
+                        "from Task_ t " +
+                        "where t.id = :taskId or :taskId is null " +
+                        "group by t.id, t.name")
+                .properties("id", "name", "subtasksCount");
+        loader.parameter("taskId", taskId);
+        List<KeyValueEntity> tasks = loader.list();
+
+        List<KeyValueEntity> keyValueEntities = new ArrayList<>(tasks);
+        keyValueEntities.add(kve);
+        return keyValueEntities;
+    }
 
     public List<ProjectStats> getProjectStats() {
 

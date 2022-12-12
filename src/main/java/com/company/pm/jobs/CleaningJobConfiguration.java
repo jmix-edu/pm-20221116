@@ -5,10 +5,8 @@ import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
 public class CleaningJobConfiguration {
 
-    @Bean
     public JobDetail registerCleaningJob() {
         return JobBuilder.newJob()
                 .ofType(UserCleaner.class)
@@ -17,7 +15,6 @@ public class CleaningJobConfiguration {
                 .build();
     }
 
-    @Bean
     public Trigger troggerCleaningJob() {
         return TriggerBuilder.newTrigger()
                 .forJob(registerCleaningJob())

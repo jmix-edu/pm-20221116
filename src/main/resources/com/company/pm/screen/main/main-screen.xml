@@ -1,6 +1,41 @@
 <window xmlns="http://jmix.io/schema/ui/window"
         caption="msg://application.caption">
 
+    <data>
+        <collection id="projectsDc" class="com.company.pm.entity.Project">
+            <fetchPlan extends="_base"/>
+            <loader id="projectsDl">
+                <query>
+                    <![CDATA[select e from Project e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="tasksDc" class="com.company.pm.entity.Task">
+            <fetchPlan extends="_base">
+                <property name="assignee" fetchPlan="_base"/>
+                <property name="project" fetchPlan="_base"/>
+                <property name="endDate"/>
+            </fetchPlan>
+            <loader id="tasksDl">
+                <query>
+                    <![CDATA[select e from Task_ e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="taskDc" class="com.company.pm.entity.Task">
+            <fetchPlan extends="_base">
+                <property name="project" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="taskDl"/>
+        </instance>
+    </data>
+    <actions>
+        <action id="addTask" caption="msg://add.task" icon="PLUS"/>
+        <action id="refresh" caption="msg://refresh.data" icon="REFRESH_ACTION"/>
+    </actions>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
     <layout>
         <cssLayout id="horizontalWrap"
                    stylename="jmix-drawer-layout">
@@ -41,7 +76,43 @@
             <workArea id="workArea"
                       stylename="jmix-workarea"
                       height="100%">
-                <initialLayout spacing="true" margin="true">
+                <initialLayout spacing="true" margin="true" expand="tasksCalendar">
+                    <hbox id="topBox" expand="welcomeBox" width="100%">
+                        <form id="form" dataContainer="taskDc">
+                            <column width="400px">
+                                <entityComboBox id="projectSelector"
+                                                caption="msg://select.project"
+                                                optionsContainer="projectsDc"
+                                                property="project"
+                                />
+                                <textField id="nameSelector"
+                                           caption="msg://select.task"
+                                           datatype="string"
+                                           property="name"
+                                />
+                                <dateField id="dateSelector"
+                                           caption="msg://select.date"
+                                           datatype="localDateTime"
+                                           property="startDate"
+                                />
+                                <hbox spacing="true" width="AUTO">
+                                    <button id="addTaskBtn" action="addTask" primary="true"/>
+                                    <button id="refreshBtn" action="refresh"/>
+                                </hbox>
+                            </column>
+                        </form>
+                        <vbox id="welcomeBox" height="100%">
+                            <label id="welcomeLabel" align="MIDDLE_CENTER"
+                                   value="msg://welcome.label.main.screen"/>
+                        </vbox>
+                    </hbox>
+                    <calendar id="tasksCalendar" width="100%"
+                              dataContainer="tasksDc"
+                              startDateProperty="startDate"
+                              endDateProperty="endDate"
+                              captionProperty="taskCaption"
+                              firstVisibleHourOfDay="8"
+                              lastVisibleHourOfDay="19"/>
                 </initialLayout>
             </workArea>
         </cssLayout>

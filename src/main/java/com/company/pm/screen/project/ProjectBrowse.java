@@ -8,19 +8,27 @@ import io.jmix.core.DataManager;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.GroupTable;
+import io.jmix.ui.component.HasValue;
+import io.jmix.ui.component.TextInputField;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.model.DataContext;
+import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import com.company.pm.entity.Project;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
+@Route("projects")
 @UiController("Project.browse")
 @UiDescriptor("project-browse.xml")
 @LookupComponent("projectsTable")
+@PrimaryLookupScreen(Project.class)
 public class ProjectBrowse extends StandardLookup<Project> {
+    private static final Logger log = LoggerFactory.getLogger(ProjectBrowse.class);
 
     @Autowired
     EnvService envService;
@@ -94,6 +102,16 @@ public class ProjectBrowse extends StandardLookup<Project> {
             projectService.startAndSaveProject(project, LocalDateTime.now());
             projectsDl.load();
         }
+    }
+
+    @Subscribe("budgetFilterField")
+    public void onBudgetFilterFieldValueChange(HasValue.ValueChangeEvent<Integer> event) {
+        if (event.getValue() == null) {
+            projectsDl.removeParameter("budgetInitialBudget1");
+        } else {
+            projectsDl.setParameter("budgetInitialBudget1", event.getValue());
+        }
+        projectsDl.load();
     }
 
 }

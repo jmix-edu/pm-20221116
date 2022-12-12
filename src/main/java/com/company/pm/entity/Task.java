@@ -10,6 +10,7 @@ import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 import io.jmix.core.pessimisticlocking.PessimisticLock;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,8 +18,10 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @JmixEntity
@@ -47,6 +50,9 @@ public class Task {
     @Column(name = "HOURS_SPENT")
     private Integer hoursSpent;
 
+    @Column(name = "START_DATE")
+    private LocalDateTime startDate;
+
     @Column(name = "VERSION", nullable = false)
     @Version
     private Integer version;
@@ -73,7 +79,7 @@ public class Task {
 
     @PositiveOrZero
     @Column(name = "HOURS_PLANNED")
-    private Integer hoursPlanned = 0;
+    private Integer hoursPlanned = 4;
 
     @Column(name = "ATTACHEMENT")
     private FileRef attachement;
@@ -93,6 +99,31 @@ public class Task {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    @JmixProperty
+    @DependsOnProperties({"startDate", "hoursSpent", "hoursPlanned"})
+    public LocalDateTime getEndDate() {
+        Integer delta = hoursSpent == null ? hoursPlanned : hoursSpent;
+        if (delta == null) {
+            delta = 8;
+        }
+        return Objects.requireNonNullElseGet(startDate, LocalDateTime::now).plusHours(delta);
+    }
+
+
+    @JmixProperty
+    @DependsOnProperties({"project", "name"})
+    public String getTaskCaption() {
+        String projectName = project != null ? project.getName() : "";
+        return "[%s]%s".formatted(projectName, name);
+    }
 
     @InstanceName
     @DependsOnProperties({"name"})

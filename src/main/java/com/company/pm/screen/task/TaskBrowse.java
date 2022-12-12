@@ -1,11 +1,16 @@
 package com.company.pm.screen.task;
 
+import com.company.pm.screen.subtask.SubtaskBrowse;
+import com.company.pm.screen.subtask.SubtaskScreenOptions;
+import com.company.pm.screen.taskstatistics.TaskStatistics;
 import io.jmix.core.DataManager;
 import io.jmix.core.FileRef;
 import io.jmix.core.Messages;
 import io.jmix.core.SaveContext;
 import io.jmix.data.PersistenceHints;
+import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.UiComponents;
+import io.jmix.ui.action.Action;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.component.*;
 import io.jmix.ui.download.Downloader;
@@ -33,6 +38,8 @@ public class TaskBrowse extends StandardLookup<Task> {
     private DataManager dataManager;
     @Autowired
     private CollectionLoader<Task> tasksDl;
+    @Autowired
+    private ScreenBuilders screenBuilders;
 
     @Install(to = "tasksTable.attachement", subject = "columnGenerator")
     private Component tasksTableAttachmentColumnGenerator(Task task) {
@@ -65,6 +72,33 @@ public class TaskBrowse extends StandardLookup<Task> {
                         .setHint(PersistenceHints.SOFT_DELETION, false)
         );
         tasksDl.load();
+    }
+
+    @Subscribe("showStats")
+    public void onShowStats(Action.ActionPerformedEvent event) {
+        TaskStatistics statistics = screenBuilders.screen(this)
+                .withScreenClass(TaskStatistics.class)
+                .withOpenMode(OpenMode.DIALOG)
+                .build();
+        Task singleSelected = tasksTable.getSingleSelected();
+        statistics.show();
+    }
+
+    @Subscribe("subtasksButton")
+    public void onSubtasksButtonClick(Button.ClickEvent event) {
+        Task task = tasksTable.getSingleSelected();
+        if (task == null) return;
+        SubtaskBrowse build = screenBuilders.screen(this)
+                .withScreenClass(SubtaskBrowse.class)
+                .withOptions(new SubtaskScreenOptions(task.getId()))
+                .withOpenMode(OpenMode.DIALOG)
+                .build();
+        build.show();
+    }
+
+    @Install(to = "showStats", subject = "enabledRule")
+    private boolean showStatsEnabledRule() {
+        return tasksTable.getSingleSelected() != null;
     }
 
 }

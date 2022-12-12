@@ -14,6 +14,7 @@ import io.jmix.ui.component.Form;
 import io.jmix.ui.component.ValidationErrors;
 import io.jmix.ui.model.DataContext;
 import io.jmix.ui.model.InstanceLoader;
+import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import com.company.pm.entity.Project;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Set;
 
+@Route(value = "projects/edit", parentPrefix = "projects")
 @UiController("Project.edit")
 @UiDescriptor("project-edit.xml")
 @EditedEntityContainer("projectDc")

@@ -13,6 +13,11 @@
             <loader id="subtasksDl">
                 <query>
                     <![CDATA[select e from Subtask e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.task.id = :taskId</c:where>
+                        </c:jpql>
+                    </condition>
                 </query>
             </loader>
         </collection>
