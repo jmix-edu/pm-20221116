@@ -1,5 +1,6 @@
 package com.company.pm.screen.task;
 
+import com.company.pm.screen.filter.SearchEvent;
 import com.company.pm.screen.subtask.SubtaskBrowse;
 import com.company.pm.screen.subtask.SubtaskScreenOptions;
 import com.company.pm.screen.taskstatistics.TaskStatistics;
@@ -8,6 +9,7 @@ import io.jmix.core.FileRef;
 import io.jmix.core.Messages;
 import io.jmix.core.SaveContext;
 import io.jmix.data.PersistenceHints;
+import io.jmix.ui.Notifications;
 import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.UiComponents;
 import io.jmix.ui.action.Action;
@@ -40,6 +42,10 @@ public class TaskBrowse extends StandardLookup<Task> {
     private CollectionLoader<Task> tasksDl;
     @Autowired
     private ScreenBuilders screenBuilders;
+    @Autowired
+    private ScreenFacet<TaskStatistics> taskStats;
+    @Autowired
+    private Notifications notifications;
 
     @Install(to = "tasksTable.attachement", subject = "columnGenerator")
     private Component tasksTableAttachmentColumnGenerator(Task task) {
@@ -63,6 +69,11 @@ public class TaskBrowse extends StandardLookup<Task> {
         return label;
     }
 
+    @Subscribe(id = "filterFragment", target = Target.CONTROLLER)
+    protected void onFilter(SearchEvent event) {
+        notifications.create().withCaption(event.getSearchText()).show();
+    }
+
     @Subscribe("hardDeleteBtn")
     public void onHardDeleteBtnClick(Button.ClickEvent event) {
         Task singleSelected = tasksTable.getSingleSelected();
@@ -76,12 +87,7 @@ public class TaskBrowse extends StandardLookup<Task> {
 
     @Subscribe("showStats")
     public void onShowStats(Action.ActionPerformedEvent event) {
-        TaskStatistics statistics = screenBuilders.screen(this)
-                .withScreenClass(TaskStatistics.class)
-                .withOpenMode(OpenMode.DIALOG)
-                .build();
-        Task singleSelected = tasksTable.getSingleSelected();
-        statistics.show();
+        taskStats.show();
     }
 
     @Subscribe("subtasksButton")
@@ -99,6 +105,12 @@ public class TaskBrowse extends StandardLookup<Task> {
     @Install(to = "showStats", subject = "enabledRule")
     private boolean showStatsEnabledRule() {
         return tasksTable.getSingleSelected() != null;
+    }
+
+    @Install(to = "taskStats", subject = "screenConfigurer")
+    private void taskStatsScreenConfigurer(TaskStatistics taskStatistics) {
+        Task task = tasksTable.getSingleSelected();
+        taskStatistics.setTaskId(task != null ? task.getId() : -1);
     }
 
 }

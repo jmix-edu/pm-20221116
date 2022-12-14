@@ -7,8 +7,10 @@ import io.jmix.ui.UiComponents;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.app.inputdialog.DialogActions;
 import io.jmix.ui.app.inputdialog.DialogOutcome;
+import io.jmix.ui.app.inputdialog.InputDialog;
 import io.jmix.ui.app.inputdialog.InputParameter;
 import io.jmix.ui.component.GroupTable;
+import io.jmix.ui.component.InputDialogFacet;
 import io.jmix.ui.component.ProgressBar;
 import io.jmix.ui.component.TextArea;
 import io.jmix.ui.executor.BackgroundTask;
@@ -44,31 +46,12 @@ public class UserBrowse extends StandardLookup<User> {
     private BackgroundWorker backgroundWorker;
     @Autowired
     private ProgressBar emailSendingBar;
+    @Autowired
+    private InputDialogFacet sendEmailDialog;
 
     @Subscribe("usersTable.sendEmail")
     public void onUsersTableSendEmail(Action.ActionPerformedEvent event) {
-        dialogs.createInputDialog(this)
-                .withCaption("Send Email")
-                .withParameters(
-                        InputParameter.stringParameter("title")
-                                .withCaption("Title")
-                                .withRequired(true),
-                        InputParameter.stringParameter("body")
-                                .withField(() -> {
-                                    TextArea<String> textArea = uiComponents.create(TextArea.TYPE_STRING);
-                                    textArea.setCaption("Email Body");
-                                    textArea.setRequired(true);
-                                    textArea.setWidthFull();
-                                    return textArea;
-                                })
-                ).withActions(DialogActions.OK_CANCEL)
-                .withCloseListener(closeEvent -> {
-                    if (closeEvent.closedWith(DialogOutcome.OK)) {
-                        doSendEmail(closeEvent.getValue("title"),
-                                closeEvent.getValue("body"),
-                                usersTable.getSelected());
-                    }
-                }).show();
+        sendEmailDialog.show();
     }
 
     private void doSendEmail(String title, String body, Collection<User> users) {
@@ -86,6 +69,15 @@ public class UserBrowse extends StandardLookup<User> {
 //                .withShowProgressInPercentage(true)
 //                .withCancelAllowed(true)
 //                .show();
+    }
+
+    @Subscribe("sendEmailDialog")
+    public void onSendEmailDialogInputDialogClose(InputDialog.InputDialogCloseEvent event) {
+        if (event.closedWith(DialogOutcome.OK)) {
+            doSendEmail(event.getValue("title"),
+                    event.getValue("body"),
+                    usersTable.getSelected());
+        }
     }
 
     private class EmailTask extends BackgroundTask<Integer, Void> {

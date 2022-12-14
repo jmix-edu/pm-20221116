@@ -35,6 +35,9 @@
             <button id="startTaskBtn"
                     caption="msg://start.task.btn.caption"
                     icon="font-icon:CLOCK_O"/>
+            <button caption="Enable" id="enableEditingBtn" icon="ENABLE_EDITING"/>
+            <button id="prevBtn" icon="ARROW_LEFT"/>
+            <button id="nextBtn" icon="ARROW_RIGHT"/>
         </hbox>
         <form id="form" dataContainer="taskDc">
             <column width="350px">

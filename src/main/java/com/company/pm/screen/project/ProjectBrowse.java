@@ -6,16 +6,15 @@ import com.company.pm.services.ProjectService;
 import io.jmix.core.AccessManager;
 import io.jmix.core.DataManager;
 import io.jmix.ui.Notifications;
-import io.jmix.ui.component.Button;
-import io.jmix.ui.component.GroupTable;
-import io.jmix.ui.component.HasValue;
-import io.jmix.ui.component.TextInputField;
+import io.jmix.ui.component.*;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.model.DataContext;
 import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import com.company.pm.entity.Project;
+import io.jmix.ui.screen.LookupComponent;
+import io.jmix.ui.settings.facet.ScreenSettingsFacet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import java.time.LocalDateTime;
 @UiController("Project.browse")
 @UiDescriptor("project-browse.xml")
 @LookupComponent("projectsTable")
-@PrimaryLookupScreen(Project.class)
 public class ProjectBrowse extends StandardLookup<Project> {
     private static final Logger log = LoggerFactory.getLogger(ProjectBrowse.class);
 
@@ -50,6 +48,8 @@ public class ProjectBrowse extends StandardLookup<Project> {
     private CollectionLoader<Project> projectsDl;
     @Autowired
     private CollectionContainer<Project> projectsDc;
+    @Autowired
+    private NotificationFacet pjCounNotif;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -60,21 +60,7 @@ public class ProjectBrowse extends StandardLookup<Project> {
 
     @Subscribe
     public void onAfterShow(AfterShowEvent event) {
-        Integer newProjectsCount = dataManager.loadValue(
-                        "select count(e) from Project e " +
-                                "where :session_isManager = TRUE " +
-                                "and e.endDate is null " +
-                                "and e.manager.id = :current_user_id",
-                        Integer.class)
-                .one();
-
-        if (newProjectsCount != 0) {
-            notifications.create()
-                    .withPosition(Notifications.Position.TOP_RIGHT)
-                    .withCaption("New project")
-                    .withDescription("Projects with UNFINISHED status: " + newProjectsCount)
-                    .show();
-        }
+        pjCounNotif.show();
     }
 
 
@@ -104,14 +90,21 @@ public class ProjectBrowse extends StandardLookup<Project> {
         }
     }
 
-    @Subscribe("budgetFilterField")
-    public void onBudgetFilterFieldValueChange(HasValue.ValueChangeEvent<Integer> event) {
-        if (event.getValue() == null) {
-            projectsDl.removeParameter("budgetInitialBudget1");
-        } else {
-            projectsDl.setParameter("budgetInitialBudget1", event.getValue());
-        }
-        projectsDl.load();
+    @Install(to = "pjCounNotif", subject = "descriptionProvider")
+    private String pjCounNotifDescriptionProvider() {
+        Integer newProjectsCount = dataManager.loadValue(
+                        "select count(e) from Project e " +
+                                "where :session_isManager = TRUE " +
+                                "and e.endDate is null " +
+                                "and e.manager.id = :current_user_id",
+                        Integer.class)
+                .one();
+        return "Projects with UNFINISHED status: " + newProjectsCount;
+    }
+
+    //@Install(to = "screenSettings", subject = "saveSettingsDelegate")
+    private void screenSettingsSaveSettingsDelegate(ScreenSettingsFacet.SettingsContext settingsContext) {
+        log.warn(settingsContext.getScreenSettings().toString());
     }
 
 }

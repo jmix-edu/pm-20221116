@@ -20,6 +20,11 @@
     <facets>
         <dataLoadCoordinator auto="true"/>
         <screenSettings id="settingsFacet" auto="true"/>
+        <screen id="taskStats" screenId="TaskStatistics" openMode="DIALOG">
+            <properties>
+                <property name="taskId" value="-1"/>
+            </properties>
+        </screen>
     </facets>
     <actions>
         <action id="lookupSelectAction"
@@ -40,6 +45,7 @@
                 dataLoader="tasksDl">
             <properties include=".*"/>
         </filter>
+        <fragment id="filterFragment" screen="FilterFragment"/>
         <groupTable id="tasksTable"
                     width="100%"
                     dataContainer="tasksDc">

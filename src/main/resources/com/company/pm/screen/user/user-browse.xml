@@ -29,6 +29,17 @@
         <dataLoadCoordinator auto="true"/>
         <screenSettings auto="true"/>
         <presentations auto="true"/>
+        <inputDialog id="sendEmailDialog"
+                     caption="msg://sendEmail.caption"
+                     dialogActions="OK_CANCEL" onAction="usersTable.sendEmail">
+            <parameters>
+                <stringParameter id="title" caption="msg://sendEmail.title"
+                                 required="true"/>
+                <stringParameter id="body">
+                    <textArea caption="msg://sendEmail.body" required="true" width="100%"/>
+                </stringParameter>
+            </parameters>
+        </inputDialog>
     </facets>
     <dialogMode height="600"
                 width="800"/>

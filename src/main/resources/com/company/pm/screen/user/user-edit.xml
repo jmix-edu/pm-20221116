@@ -9,6 +9,7 @@
                 <property name="address" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
+            <instance id="addressDc" property="address"/>
         </instance>
     </data>
     <actions>
@@ -42,8 +43,7 @@
                 <textField id="firstNameField" property="firstName"/>
                 <textField id="lastNameField" property="lastName"/>
                 <textField id="emailField" property="email"/>
-                <textField id="addressZipField" property="address.zip"/>
-                <textField id="addressStreetField" property="address.street"/>
+                <fragment screen="AddressFragment"/>
                 <comboBox id="timeZoneField" property="timeZoneId"/>
                 <checkBox id="activeField" property="active"/>
                 <button id="reportBtn" caption="Print Report"/>

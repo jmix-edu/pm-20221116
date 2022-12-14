@@ -11,6 +11,8 @@ import io.jmix.reportsui.runner.UiReportRunner;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.GroupTable;
+import io.jmix.ui.component.TabSheet;
+import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import com.company.pm.dtos.ProjectStats;
@@ -27,7 +29,6 @@ public class ProjectStatsBrowse extends StandardLookup<ProjectStats> {
 
     @Autowired
     private StatsService statsService;
-    @Autowired
     private GroupTable<ProjectStats> projectStatsesTable;
     @Autowired
     private Notifications notifications;
@@ -35,6 +36,16 @@ public class ProjectStatsBrowse extends StandardLookup<ProjectStats> {
     private UiReportRunner uiReportRunner;
     @Autowired
     private ReportingService reportingService;
+    @Autowired
+    private CollectionLoader<Project> projectsDl;
+    @Autowired
+    private CollectionLoader<ProjectStats> projectStatsesDl;
+
+    @Subscribe
+    public void onBeforeShow(BeforeShowEvent event) {
+        projectsDl.load();
+    }
+
 
     @Install(to = "projectStatsesDl", target = Target.DATA_LOADER)
     private List<ProjectStats> projectStatsesDlLoadDelegate(LoadContext<ProjectStats> loadContext) {
@@ -59,5 +70,12 @@ public class ProjectStatsBrowse extends StandardLookup<ProjectStats> {
     @Subscribe("reportInBgd")
     public void onReportInBgdClick(Button.ClickEvent event) {
         reportingService.runReport();
+    }
+
+    @Subscribe("projectsTabSheet")
+    public void onProjectsTabSheetSelectedTabChange(TabSheet.SelectedTabChangeEvent event) {
+        if (projectStatsesTable != null) return;
+        projectStatsesDl.load();
+        projectStatsesTable = (GroupTable<ProjectStats>) getWindow().getComponentNN("projectStatsesTable");
     }
 }

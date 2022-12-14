@@ -2,8 +2,7 @@ package com.company.pm.entity;
 
 import io.jmix.core.metamodel.annotation.JmixEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 @JmixEntity
 @Embeddable
@@ -13,6 +12,18 @@ public class Address {
 
     @Column(name = "STREET")
     private String street;
+
+    @JoinColumn(name = "CITY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private City city;
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 
     public String getStreet() {
         return street;

@@ -28,6 +28,8 @@
               caption="msg://com.company.pm.screen.timesheet/timeSheetBrowse.menu"/>
         <item screen="Post.browse"
               caption="msg://com.company.pm.screen.post/postBrowse.menu"/>
+        <item screen="City.browse"
+              caption="msg://com.company.pm.screen.city/cityBrowse.menu"/>
     </menu>
 
 </menu-config>

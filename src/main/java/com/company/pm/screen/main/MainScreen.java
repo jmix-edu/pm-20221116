@@ -177,4 +177,5 @@ public class MainScreen extends Screen implements Window.HasWorkArea {
         if (value == null) return null;
         return value.toUpperCase();
     }
+
 }

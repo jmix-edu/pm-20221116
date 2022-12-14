@@ -40,15 +40,30 @@
                 <textField id="nameField" property="name"/>
                 <dateField id="startDateField" property="startDate"/>
                 <dateField id="endDateField" property="endDate"/>
-                <entityPicker id="managerField" property="manager">
+                <entitySuggestionField id="managerField"
+                                       property="manager"
+                                       inputPrompt="Start typing username"
+                                       minSearchStringLength="3">
+                    <query entityClass="com.company.pm.entity.User"
+                           searchStringFormat="%${searchString}%"
+                           escapeValueForLike="true"
+                           fetchPlan="_instance_name">
+                        <![CDATA[select u from User u where lower(u.username) like lower(:searchString) escape '\']]>
+                    </query>
                     <actions>
                         <action id="entityLookup" type="entity_lookup"/>
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
-                </entityPicker>
+                </entitySuggestionField>
+<!--                <entityPicker id="managerField" property="manager">-->
+<!--                    <actions>-->
+<!--                        <action id="entityLookup" type="entity_lookup"/>-->
+<!--                        <action id="entityClear" type="entity_clear"/>-->
+<!--                    </actions>-->
+<!--                </entityPicker>-->
                 <textField id="budgetPlanned" property="budget.initialBudget"/>
                 <textField id="budgetSpent" property="budget.spentBudget"/>
-                <textField id="projectLabelsField" property="projectLabels"/>
+                <field id="projectLabelsField" property="projectLabels"/>
 <!--                <textArea id="descrTextArea" property="+ProjectCategoryBackendDescription"/>-->
                 <dynattr:dynamicAttributesPanel id="dynamicAttributesPanel"
                                                 dataContainer="projectDc"
