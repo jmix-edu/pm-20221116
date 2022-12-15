@@ -12,7 +12,7 @@ import java.util.UUID;
 @JmixEntity
 @Table(name = "user_info")
 @Entity
-public class UserInfo {
+public class ProjectUserInfo {
     @JmixGeneratedValue
     @Column(name = "id", nullable = false)
     @Id

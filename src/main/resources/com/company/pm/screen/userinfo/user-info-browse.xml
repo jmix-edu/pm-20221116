@@ -5,7 +5,7 @@
         focusComponent="userInfoesTable">
     <data readOnly="true">
         <collection id="userInfoesDc"
-                    class="com.company.pm.entity.UserInfo">
+                    class="com.company.pm.entity.ProjectUserInfo">
             <fetchPlan extends="_base"/>
             <loader id="userInfoesDl">
                 <query>

@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +27,7 @@ public class PostBrowse extends StandardLookup<Post> {
 
     @Install(to = "postsDl", target = Target.DATA_LOADER)
     private List<Post> postsDlLoadDelegate(LoadContext<Post> loadContext) {
-        return postService.fetchPosts();
+        return postService.fetchPosts(10);
     }
 
     @Install(target = Target.DATA_CONTEXT)
