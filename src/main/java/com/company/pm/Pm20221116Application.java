@@ -2,6 +2,8 @@ package com.company.pm;
 
 import com.google.common.base.Strings;
 import io.jmix.core.repository.EnableJmixDataRepositories;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -25,13 +27,6 @@ public class Pm20221116Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Pm20221116Application.class, args);
-    }
-
-    @Bean
-    @Primary
-    @ConfigurationProperties("main.datasource")
-    DataSourceProperties dataSourceProperties() {
-        return new DataSourceProperties();
     }
 
     @Bean
