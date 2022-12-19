@@ -1,40 +1,54 @@
-package com.company.pm.services;
+package com.company.pm.screen;
 
 import com.company.pm.entity.Project;
 import com.company.pm.entity.Task;
 import com.company.pm.entity.User;
+import com.company.pm.screen.task.TaskEdit;
 import io.jmix.core.DataManager;
 import io.jmix.core.Metadata;
-import io.jmix.core.security.SystemAuthenticator;
+import io.jmix.ui.ScreenBuilders;
+import io.jmix.ui.Screens;
+import io.jmix.ui.testassist.junit.UiTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@UiTest(mainScreenId = "MainScreen")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-integration-test.properties")
-public class UserServiceIntegrationTest {
-    @Autowired
-    private Metadata metadata;
+public class TaskEditIntegrationTest {
 
     @Autowired
-    private UserService userService;
+    private Metadata metadata;
 
     @Autowired
     private DataManager dataManager;
 
     @Autowired
-    private SystemAuthenticator systemAuthenticator;
+    private ScreenBuilders screenBuilders;
 
     @Test
-    @DisplayName("For two users we should select only one least busy")
-    public void testLeastBusyUserOfTwoUsers() {
+    @DisplayName("Check the computation of the least busy user")
+    protected void openTaskEdit(Screens screens) {
         //Given
+        List<User> users = generateTestData();
+
+        //When
+        TaskEdit taskEdit = screenBuilders.editor(Task.class, screens.getOpenedScreens().getRootScreen())
+                .withScreenClass(TaskEdit.class)
+                .newEntity()
+                .show();
+        //Then
+        Assertions.assertEquals(users.get(0), taskEdit.getEditedEntity().getAssignee());
+    }
+
+    private List<User> generateTestData() {
         User user1 = metadata.create(User.class);
         user1.setUsername("user1");
 
@@ -64,16 +78,8 @@ public class UserServiceIntegrationTest {
         task2.setProject(project);
         task2.setHoursSpent(1);
 
-        User user = systemAuthenticator.withUser("admin", () -> {
-                    dataManager.save(user1, user2, project, task, task1, task2);
-                    return userService.findLeastBusyUser();
-                }
-        );
+        dataManager.unconstrained().save(user1, user2, project, task, task1, task2);
 
-        assertEquals("user1", user.getUsername());
-
-
+        return List.of(user1, user2);
     }
-
-
 }

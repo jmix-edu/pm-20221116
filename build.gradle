@@ -67,6 +67,8 @@ dependencies {
     implementation 'io.jmix.rest:jmix-rest-starter'
     implementation 'io.jmix.graphql:jmix-graphql-starter'
 
+    testImplementation 'io.jmix.ui:jmix-ui-test-assist'
+
     testImplementation 'com.graphql-java-kickstart:graphql-spring-boot-starter-test:11.0.0'
 
 }

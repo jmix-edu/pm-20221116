@@ -1,32 +1,26 @@
 package com.company.pm.services;
 
-import com.company.pm.Pm20221116Application;
 import com.company.pm.entity.User;
 import io.jmix.core.DataManager;
 import io.jmix.core.Metadata;
+import io.jmix.core.ValueLoadContext;
 import io.jmix.core.entity.KeyValueEntity;
 import io.jmix.securitydata.entity.RoleAssignmentEntity;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class UserServiceTest {
 
@@ -57,9 +51,7 @@ public class UserServiceTest {
 
         List<KeyValueEntity> dataManagerResult = List.of(entity1, entity2);
 
-        //TODO See service reimplemented
-        Mockito.when(dataManager.loadValues(Mockito.anyString())
-                .properties("user", "tasks").list()).thenReturn(dataManagerResult);
+        Mockito.when(dataManager.loadValues(any(ValueLoadContext.class))).thenReturn(dataManagerResult);
         //Then
         User leastBusyUser = userService.findLeastBusyUser();
         //When
@@ -78,10 +70,10 @@ public class UserServiceTest {
 
         Mockito.when(dataManager.unconstrained()).thenReturn(dataManager);
         Mockito.when(dataManager.create(User.class)).thenReturn(value);
-        Mockito.when(dataManager.save(ArgumentMatchers.any(User.class))).thenReturn(value);
+        Mockito.when(dataManager.save(any(User.class))).thenReturn(value);
 
         Mockito.when(dataManager.create(RoleAssignmentEntity.class)).thenReturn(metadata.create(RoleAssignmentEntity.class));
-        Mockito.when(dataManager.save(ArgumentMatchers.any(RoleAssignmentEntity.class))).thenReturn(null);
+        Mockito.when(dataManager.save(any(RoleAssignmentEntity.class))).thenReturn(null);
 
         //When
         User user = userService.register(username, password);

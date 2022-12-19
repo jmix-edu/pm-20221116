@@ -4,6 +4,7 @@ import com.company.pm.entity.User;
 import com.company.pm.security.ProjectManagerRole;
 import io.jmix.core.DataManager;
 import io.jmix.core.UnconstrainedDataManager;
+import io.jmix.core.ValueLoadContext;
 import io.jmix.security.role.assignment.RoleAssignmentRoleType;
 import io.jmix.securitydata.entity.RoleAssignmentEntity;
 import io.jmix.securityui.role.UiMinimalRole;
@@ -32,12 +33,15 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User findLeastBusyUser() {
-         User user = dataManager.loadValues("select u, count(t.id) " +
-                 "from User u left outer join Task_ t " +
-                 "on u = t.assignee " +
-                 "group by u order by count(t.id)")
-                 .properties("user", "tasks")
-                 .list().stream().map(e -> e.<User>getValue("user"))
+        ValueLoadContext valueLoadContext = ValueLoadContext.create()
+                .setQuery(new ValueLoadContext.Query("select u, count(t.id) " +
+                        "from User u left outer join Task_ t " +
+                        "on u = t.assignee " +
+                        "group by u order by count(t.id)"))
+                .addProperty("user")
+                .addProperty("tasks");
+        User user = dataManager.loadValues(valueLoadContext)
+                 .stream().map(e -> e.<User>getValue("user"))
                  .findFirst()
                  .orElseThrow(IllegalStateException::new);
          return user;
