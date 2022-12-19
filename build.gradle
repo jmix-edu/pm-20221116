@@ -71,6 +71,19 @@ dependencies {
 
     testImplementation 'com.graphql-java-kickstart:graphql-spring-boot-starter-test:11.0.0'
 
+    // gauge
+    testImplementation 'com.thoughtworks.gauge:gauge-java:0.9.1'
+
+    // masquerade
+    implementation('org.jsoup:jsoup') {
+        version {
+            strictly '1.11.2'
+        }
+    }
+
+    testImplementation 'com.codeborne:selenide:6.6.1'
+    testImplementation 'io.jmix.masquerade:jmix-masquerade:1.1.0'
+
 }
 
 test {

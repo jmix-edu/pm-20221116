@@ -254,6 +254,7 @@ public class Task {
     @PrePersist
     @PreUpdate
     public void prePersist() {
+        if (hoursSpent == null) hoursSpent = 0;
         if (hoursSpent > 0 && getState() != TaskState.STARTED) {
             setState(TaskState.STARTED);
         }
